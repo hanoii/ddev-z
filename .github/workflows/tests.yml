@@ -42,7 +42,7 @@ jobs:
       run: |
         # For bats-assert and friends
         brew tap kaos/shell
-        brew install bats-core bats-assert
+        brew install mkcert bats-core bats-assert
         mkcert -install
 
     - name: Use ddev stable
