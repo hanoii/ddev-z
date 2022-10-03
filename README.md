@@ -1,4 +1,4 @@
-[![tests](https://github.com/hanoii/ddev-x/actions/workflows/tests.yml/badge.svg)](https://github.com/hanoii/ddev-z/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2022.svg)
+[![tests](https://github.com/hanoii/ddev-z/actions/workflows/tests.yml/badge.svg)](https://github.com/hanoii/ddev-z/actions/workflows/tests.yml) ![project is maintained](https://img.shields.io/maintenance/yes/2022.svg)
 
 ## What is ddev-z?
 
