@@ -1,18 +1,23 @@
 setup() {
   set -eu -o pipefail
   export DIR="$( cd "$( dirname "$BATS_TEST_FILENAME" )" >/dev/null 2>&1 && pwd )/.."
-  export TESTDIR=~/tmp/test-addon-template
+  export TESTDIR=~/tmp/test-ddev-z
   mkdir -p $TESTDIR
-  export PROJNAME=test-addon-template
+  export PROJNAME=test-ddev-z
   export DDEV_NON_INTERACTIVE=true
   ddev delete -Oy ${PROJNAME} >/dev/null 2>&1 || true
   cd "${TESTDIR}"
   ddev config --project-name=${PROJNAME}
+  rsync -av $DIR/tests/testdata/ "${TESTDIR}"
+  brew_prefix=$(brew --prefix)
+  docker volume rm $PROJNAME-mariadb || true
+  load "${brew_prefix}/lib/bats-support/load.bash"
+  load "${brew_prefix}/lib/bats-assert/load.bash"
   ddev start -y >/dev/null
 }
 
 teardown() {
-  set -eu -o pipefail
+  set -eu -
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
   ddev delete -Oy ${PROJNAME} >/dev/null
   [ "${TESTDIR}" != "" ] && rm -rf ${TESTDIR}
@@ -24,17 +29,24 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  # Do something here to verify functioning extra service
-  # For extra credit, use a real CMS with actual config.
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
+  echo "cd path/to/test/z1" | ddev exec "bash -i"
+  echo "cd path/to/test/z2" | ddev exec "bash -i"
+  echo "z z1" | ddev exec "bash -i"
+  echo "z z2" | ddev exec "bash -i"
+  run bash -c 'echo "z z3" | ddev exec "bash -i"'
+  assert_failure
 }
 
 @test "install from release" {
   set -eu -o pipefail
   cd ${TESTDIR} || ( printf "unable to cd to ${TESTDIR}\n" && exit 1 )
-  echo "# ddev get drud/ddev-addon-template with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
-  ddev get drud/ddev-addon-template
+  echo "# ddev get hanoii/ddev-z with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
+  ddev get hanoii/ddev-z
   ddev restart >/dev/null
-  # Do something useful here that verifies the add-on
-  # ddev exec "curl -s elasticsearch:9200" | grep "${PROJNAME}-elasticsearch"
+  echo "cd path/to/test/z1" | ddev exec "bash -i"
+  echo "cd path/to/test/z2" | ddev exec "bash -i"
+  echo "z z1" | ddev exec "bash -i"
+  echo "z z2" | ddev exec "bash -i"
+  run bash -c 'echo "z z3" | ddev exec "bash -i"'
+  assert_failure
 }

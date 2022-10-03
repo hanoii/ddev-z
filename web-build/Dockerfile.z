@@ -1,0 +1,2 @@
+#ddev-generated
+RUN curl -o /usr/local/share/z.sh https://raw.githubusercontent.com/rupa/z/b82ac78a2d4457d2ca09973332638f123f065fd1/z.sh

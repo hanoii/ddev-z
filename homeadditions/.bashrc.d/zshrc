@@ -1,0 +1,6 @@
+#ddev-generated
+Z_DIR=/mnt/ddev-global-cache/z/${HOSTNAME}
+_Z_DATA=${Z_DIR}/.z
+mkdir -p ${Z_DIR}
+. /usr/local/share/z.sh
+export _Z_DATA
