@@ -1,4 +1,4 @@
 name: addon-template
 project_files:
-- homeadditions
+- homeadditions/.bashrc.d/zshrc
 - web-build/Dockerfile.z
