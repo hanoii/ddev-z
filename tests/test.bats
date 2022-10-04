@@ -29,12 +29,12 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  echo "cd path/to/test/z1" | ddev exec "bash -i"
-  echo "cd path/to/test/z2" | ddev exec "bash -i"
-  echo "z" | ddev exec "bash -i"
-  echo "z z1" | ddev exec "bash -i"
-  echo "z z2" | ddev exec "bash -i"
-  run bash -c 'echo "z z3" | ddev exec "bash -i"'
+  echo -e "cd path/to/test/z1\n" | ddev exec "bash -ix"
+  echo -e "cd path/to/test/z2\n" | ddev exec "bash -ix"
+  echo -e "z\n" | ddev exec "bash -ix"
+  echo -e "z z1\n" | ddev exec "bash -ix"
+  echo -e "z z2\n" | ddev exec "bash -ix"
+  run bash -c 'echo -e "z z3\n" | ddev exec "bash -ix"'
   assert_failure
 }
 
@@ -44,11 +44,11 @@ teardown() {
   echo "# ddev get hanoii/ddev-z with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get hanoii/ddev-z
   ddev restart >/dev/null
-  echo "cd path/to/test/z1" | ddev exec "bash -i"
-  echo "cd path/to/test/z2" | ddev exec "bash -i"
-  echo "z" | ddev exec "bash -i"
-  echo "z z1" | ddev exec "bash -i"
-  echo "z z2" | ddev exec "bash -i"
-  run bash -c 'echo "z z3" | ddev exec "bash -i"'
+  echo -e "cd path/to/test/z1\n" | ddev exec "bash -ix"
+  echo -e "cd path/to/test/z2\n" | ddev exec "bash -ix"
+  echo -e "z\n" | ddev exec "bash -ix"
+  echo -e "z z1\n" | ddev exec "bash -ix"
+  echo -e "z z2\n" | ddev exec "bash -ix"
+  run bash -c 'echo -e "z z3\n" | ddev exec "bash -ix"'
   assert_failure
 }
