@@ -29,11 +29,11 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  echo -e "cd path/to/test/z1\ncd -\nsleep 1\nz" | ddev exec "bash -ix"
-  echo -e "cd path/to/test/z2\ncd -\nsleep 1\nz" | ddev exec "bash -ix"
-  echo -e "z z1\n" | ddev exec "bash -ix"
-  echo -e "z z2\n" | ddev exec "bash -ix"
-  run bash -c 'echo -e "z z3\n" | ddev exec "bash -ix"'
+  echo -e "cd path/to/test/z1\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
+  echo -e "cd path/to/test/z2\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
+  echo -e "z z1\n" | ddev exec "bash -i"
+  echo -e "z z2\n" | ddev exec "bash -i"
+  run bash -c 'echo -e "z z3\n" | ddev exec "bash -i"'
   assert_failure
 }
 
@@ -43,10 +43,10 @@ teardown() {
   echo "# ddev get hanoii/ddev-z with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get hanoii/ddev-z
   ddev restart >/dev/null
-  echo -e "cd path/to/test/z1\ncd -\nsleep 1\nz" | ddev exec "bash -ix"
-  echo -e "cd path/to/test/z2\ncd -\nsleep 1\nz" | ddev exec "bash -ix"
-  echo -e "z z1\n" | ddev exec "bash -ix"
-  echo -e "z z2\n" | ddev exec "bash -ix"
+  echo -e "cd path/to/test/z1\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
+  echo -e "cd path/to/test/z2\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
+  echo -e "z z1\n" | ddev exec "bash -i"
+  echo -e "z z2\n" | ddev exec "bash -i"
   run bash -c 'echo -e "z z3\n" | ddev exec "bash -ix"'
   assert_failure
 }
