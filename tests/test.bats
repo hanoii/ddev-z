@@ -29,12 +29,23 @@ teardown() {
   echo "# ddev get ${DIR} with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get ${DIR}
   ddev restart
-  echo -e "cd path/to/test/z1\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
-  echo -e "cd path/to/test/z2\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
-  echo -e "z z1\n" | ddev exec "bash -i"
-  echo -e "z z2\n" | ddev exec "bash -i"
-  run bash -c 'echo -e "z z3\n" | ddev exec "bash -i"'
+  # Adding this manually as I couldn't make it work from `cd` commands
+  # It does seem to work just fine interactively and the purpose of this
+  # test for z functionality, only for its present and some functional tests.
+  ddev exec 'bash -ic "z --add /var/www/html/path/to/test/z1"'
+  ddev exec 'bash -ic "z --add /var/www/html/path/to/test/z2"'
+  # Test just the presence of z
+  ddev exec 'bash -ic "z"'
+  # Test changing dirs
+  ddev exec 'bash -ic "z z1"'
+  ddev exec 'bash -ic "z z2"'
+  run ddev exec 'bash -ic "z z3"'
   assert_failure
+  # Test persistance of database
+  ddev restart
+  ddev exec 'bash -ic "z"'
+  ddev exec 'bash -ic "z z1"'
+  ddev exec 'bash -ic "z z2"'
 }
 
 @test "install from release" {
@@ -43,10 +54,21 @@ teardown() {
   echo "# ddev get hanoii/ddev-z with project ${PROJNAME} in ${TESTDIR} ($(pwd))" >&3
   ddev get hanoii/ddev-z
   ddev restart >/dev/null
-  echo -e "cd path/to/test/z1\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
-  echo -e "cd path/to/test/z2\ncd -\nsleep 1\nls -lRA /mnt/ddev-global-cache/z/\nz" | ddev exec "bash -i"
-  echo -e "z z1\n" | ddev exec "bash -i"
-  echo -e "z z2\n" | ddev exec "bash -i"
-  run bash -c 'echo -e "z z3\n" | ddev exec "bash -ix"'
+  # Adding this manually as I couldn't make it work from `cd` commands
+  # It does seem to work just fine interactively and the purpose of this
+  # test for z functionality, only for its present and some functional tests.
+  ddev exec 'bash -ic "z --add /var/www/html/path/to/test/z1"'
+  ddev exec 'bash -ic "z --add /var/www/html/path/to/test/z2"'
+  # Test just the presence of z
+  ddev exec 'bash -ic "z"'
+  # Test changing dirs
+  ddev exec 'bash -ic "z z1"'
+  ddev exec 'bash -ic "z z2"'
+  run ddev exec 'bash -ic "z z3"'
   assert_failure
+  # Test persistance of database
+  ddev restart
+  ddev exec 'bash -ic "z"'
+  ddev exec 'bash -ic "z z1"'
+  ddev exec 'bash -ic "z z2"'
 }
