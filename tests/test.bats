@@ -10,7 +10,6 @@ setup() {
   ddev config --project-name=${PROJNAME}
   rsync -av $DIR/tests/testdata/ "${TESTDIR}"
   brew_prefix=$(brew --prefix)
-  docker volume rm $PROJNAME-mariadb || true
   load "${brew_prefix}/lib/bats-support/load.bash"
   load "${brew_prefix}/lib/bats-assert/load.bash"
   ddev start -y >/dev/null
